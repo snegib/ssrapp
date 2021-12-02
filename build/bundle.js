@@ -84,20 +84,28 @@ var _renderer = __webpack_require__(5);
 
 var _renderer2 = _interopRequireDefault(_renderer);
 
+var _createStore = __webpack_require__(9);
+
+var _createStore2 = _interopRequireDefault(_createStore);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// typical common js syntax/module
+var app = (0, _express2.default)(); // typical common js syntax/module
 // const express = require("express");
 // const React = require("react");
 // const renderToString = require("react-dom/server").renderToString;
 // const Home = require("./client/components/Home").default;
 
-var app = (0, _express2.default)();
 app.use(_express2.default.static("public"));
 
 // root route of our application
 app.get("*", function (req, res) {
-    res.send((0, _renderer2.default)(req)); //  request (req), is contains the url which user trying to access or which component should be rendered
+    var store = (0, _createStore2.default)();
+
+    // some logic to initialize
+    // and load data into the store
+
+    res.send((0, _renderer2.default)(req, store)); //  request (req), is contains the url which user trying to access or which component should be rendered
 });
 app.listen(3000, function () {
     console.log("listening on port 3000");
@@ -172,7 +180,9 @@ var _react2 = _interopRequireDefault(_react);
 
 var _server = __webpack_require__(3);
 
-var _reactRouter = __webpack_require__(6);
+var _reactRouterDom = __webpack_require__(8);
+
+var _reactRedux = __webpack_require__(12);
 
 var _Routes = __webpack_require__(7);
 
@@ -180,27 +190,25 @@ var _Routes2 = _interopRequireDefault(_Routes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// this file is going to how is a function that will simply render our react app and return
-// it as a string, essentially what we are currently doing on these couple lines inside of our // root handler.
-
-exports.default = function (req) {
+exports.default = function (req, store) {
     var content = (0, _server.renderToString)(
     // path is coming from express, chk express docuemntation
     _react2.default.createElement(
-        _reactRouter.StaticRouter,
-        { location: req.path, context: {} },
-        _react2.default.createElement(_Routes2.default, null)
+        _reactRedux.Provider,
+        { store: store },
+        _react2.default.createElement(
+            _reactRouterDom.StaticRouter,
+            { location: req.path, context: {} },
+            _react2.default.createElement(_Routes2.default, null)
+        )
     )); // this will convert react to html code
     return "\n    <html>\n        <head></head>\n        <body>\n            <div id=\"root\">" + content + "</div>\n            <script src=\"bundle.js\"></script>\n        </body>\n    </html>";
-};
+}; //use for server (index.js)
+// this file is going to how is a function that will simply render our react app and return
+// it as a string, essentially what we are currently doing on these couple lines inside of our // root handler.
 
 /***/ }),
-/* 6 */
-/***/ (function(module, exports) {
-
-module.exports = require("react-router");
-
-/***/ }),
+/* 6 */,
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -239,6 +247,50 @@ exports.default = function () {
 /***/ (function(module, exports) {
 
 module.exports = require("react-router-dom");
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _redux = __webpack_require__(10);
+
+var _reduxThunk = __webpack_require__(11);
+
+var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// for server side store
+
+exports.default = function () {
+    var store = (0, _redux.createStore)(reducers, {}, _redux.applyMiddleware);
+    return store;
+};
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports) {
+
+module.exports = require("redux");
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports) {
+
+module.exports = require("redux-thunk");
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports) {
+
+module.exports = require("react-redux");
 
 /***/ })
 /******/ ]);
