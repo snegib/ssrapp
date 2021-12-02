@@ -3,10 +3,16 @@
 
 import React from "react";
 import { renderToString } from "react-dom/server";
-import Home from "../client/components/Home";
+import { StaticRouter } from "react-router";
+import Routes from "../client/Routes";
 
-export default () => {
-    const content = renderToString(<Home />); // this will convert react to html code
+export default (req) => {
+    const content = renderToString(
+        // path is coming from express, chk express docuemntation
+        <StaticRouter location={req.path} context={{}}>
+            <Routes />
+        </StaticRouter>
+    ); // this will convert react to html code
     return `
     <html>
         <head></head>

@@ -10,8 +10,8 @@ const app = express();
 app.use(express.static("public"));
 
 // root route of our application
-app.get("/", (req, res) => {
-    res.send(renderer());
+app.get("*", (req, res) => {
+    res.send(renderer(req)); //  request (req), is contains the url which user trying to access or which component should be rendered
 });
 app.listen(3000, () => {
     console.log("listening on port 3000");
