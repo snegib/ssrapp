@@ -1,4 +1,4 @@
-import Axios from "axios"; // for api request
+import axios from "axios"; // for api request
 
 export const FETCH_USERS = "fetch-users";
 export const fetchUsers = () => async (dispatch) => {

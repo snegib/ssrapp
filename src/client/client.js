@@ -1,6 +1,6 @@
 // start up point for the client side application
 console.log("hi there from client!!!");
-
+import "babel-polyfill"; // this is added to ASYNC AWAIT work properly inside action => index.js
 import React, { useReducer } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
