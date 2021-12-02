@@ -5,24 +5,13 @@
 // const Home = require("./client/components/Home").default;
 
 import express from "express";
-import React from "react";
-import { renderToString } from "react-dom/server";
-import Home from "./client/components/Home";
+import renderer from "./helpers/renderer";
 const app = express();
 app.use(express.static("public"));
 
 // root route of our application
 app.get("/", (req, res) => {
-    const content = renderToString(<Home />); // this will convert react to html code
-    const html = `
-    <html>
-        <head></head>
-        <body>
-            <div id="root">${content}</div>
-            <script src="bundle.js"></script>
-        </body>
-    </html>`;
-    res.send(html);
+    res.send(renderer());
 });
 app.listen(3000, () => {
     console.log("listening on port 3000");
