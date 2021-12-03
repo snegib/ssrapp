@@ -9,7 +9,7 @@ import { matchRoutes } from "react-router-config";
 import Routes from "./client/Routes";
 import renderer from "./helpers/renderer";
 import createStore from "./helpers/createStore";
-import { loadData } from "./client/components/UsersList";
+import { loadData } from "./client/pages/UsersListPage";
 const app = express();
 app.use(express.static("public"));
 

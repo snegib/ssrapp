@@ -1,9 +1,9 @@
 // this is the file shared routes both server and client base routes
 
 import React from "react";
-import { Route } from "react-router-dom";
+// import { Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import UsersListPage from "./components/UsersListPage";
+import UsersListPage from "./pages/UsersListPage";
 
 // this structure needed when we doing SSR, npm module required 'react-router-config'
 export default [
