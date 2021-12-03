@@ -26,10 +26,9 @@ app.get("*", (req, res) => {
         return route.loadData ? route.loadData(store) : null; // return array of promises representing all the pending network request from all the actin creators that we might end up calling
     });
     // console.log(promises);
-    promise.all(promises).then(() => {
-        res.send(renderer(req, store)); //  request (req), is contains the url which user trying to access or which component should be rendered});
-
-    
+    Promise.all(promises).then(() => {
+        res.send(renderer(req, store)); //  request (req), is contains the url which user trying to access or which component should be rendered
+    });
 });
 app.listen(3000, () => {
     console.log("listening on port 3000");
