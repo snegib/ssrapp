@@ -24,8 +24,9 @@ class UsersList extends Component {
     }
 }
 
-function loadData() {
-    console.log("trying to load data");
+function loadData(store) {
+    // console.log("trying to load data");
+    return store.dispatch(fetchUsers()); // this line return the promise
 }
 
 function mapStateToProps(state) {

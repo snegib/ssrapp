@@ -29844,8 +29844,9 @@ var UsersList = function (_Component) {
     return UsersList;
 }(_react.Component);
 
-function loadData() {
-    console.log("trying to load data");
+function loadData(store) {
+    // console.log("trying to load data");
+    return store.dispatch((0, _actions.fetchUsers)()); // this line return the promise
 }
 
 function mapStateToProps(state) {
