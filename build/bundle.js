@@ -82,6 +82,12 @@ var _express = __webpack_require__(2);
 
 var _express2 = _interopRequireDefault(_express);
 
+var _reactRouterConfig = __webpack_require__(19);
+
+var _Routes = __webpack_require__(7);
+
+var _Routes2 = _interopRequireDefault(_Routes);
+
 var _renderer = __webpack_require__(5);
 
 var _renderer2 = _interopRequireDefault(_renderer);
@@ -107,6 +113,7 @@ app.get("*", function (req, res) {
 
     // some logic to initialize
     // and load data into the store
+    (0, _reactRouterConfig.matchRoutes)(_Routes2.default, req.path); // (Routes) which component and (req.path) url of data which data need to be show/view
 
     res.send((0, _renderer2.default)(req, store)); //  request (req), is contains the url which user trying to access or which component should be rendered
 });

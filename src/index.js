@@ -5,6 +5,8 @@
 // const Home = require("./client/components/Home").default;
 import "babel-polyfill"; // this is added to ASYNC AWAIT work properly inside action => index.js
 import express from "express";
+import { matchRoutes } from "react-router-config";
+import Routes from "./client/Routes";
 import renderer from "./helpers/renderer";
 import createStore from "./helpers/createStore";
 const app = express();
@@ -16,6 +18,7 @@ app.get("*", (req, res) => {
 
     // some logic to initialize
     // and load data into the store
+    matchRoutes(Routes, req.path); // (Routes) which component and (req.path) url of data which data need to be show/view
 
     res.send(renderer(req, store)); //  request (req), is contains the url which user trying to access or which component should be rendered
 });
