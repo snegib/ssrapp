@@ -187,11 +187,17 @@ var _reactRouterDom = __webpack_require__(8);
 
 var _reactRedux = __webpack_require__(12);
 
+var _reactRouterConfig = __webpack_require__(19);
+
 var _Routes = __webpack_require__(7);
 
 var _Routes2 = _interopRequireDefault(_Routes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//use for server (index.js)
+// this file is going to how is a function that will simply render our react app and return
+// it as a string, essentially what we are currently doing on these couple lines inside of our // root handler.
 
 exports.default = function (req, store) {
     var content = (0, _server.renderToString)(
@@ -202,13 +208,15 @@ exports.default = function (req, store) {
         _react2.default.createElement(
             _reactRouterDom.StaticRouter,
             { location: req.path, context: {} },
-            _react2.default.createElement(_Routes2.default, null)
+            _react2.default.createElement(
+                "div",
+                null,
+                (0, _reactRouterConfig.renderRoutes)(_Routes2.default)
+            )
         )
     )); // this will convert react to html code
     return "\n    <html>\n        <head></head>\n        <body>\n            <div id=\"root\">" + content + "</div>\n            <script src=\"bundle.js\"></script>\n        </body>\n    </html>";
-}; //use for server (index.js)
-// this file is going to how is a function that will simply render our react app and return
-// it as a string, essentially what we are currently doing on these couple lines inside of our // root handler.
+};
 
 /***/ }),
 /* 6 */,
@@ -513,6 +521,12 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, { fetchUsers: _actio
 /***/ (function(module, exports) {
 
 module.exports = require("babel-polyfill");
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports) {
+
+module.exports = require("react-router-config");
 
 /***/ })
 /******/ ]);
