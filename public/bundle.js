@@ -21591,16 +21591,28 @@ var _UsersList2 = _interopRequireDefault(_UsersList);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// this structure needed when we doing SSR, npm module required 'react-router-config'
 // this is the file shared routes both server and client base routes
 
-exports.default = function () {
-    return _react2.default.createElement(
-        "div",
-        null,
-        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/", component: _Home2.default }),
-        _react2.default.createElement(_reactRouterDom.Route, { path: "/users", component: _UsersList2.default })
-    );
-};
+exports.default = [{
+    path: "/",
+    component: _Home2.default,
+    exact: true
+}, {
+    path: "/users",
+    component: _UsersList2.default
+}];
+
+// otherwise the old structure is used
+// export default () => {
+//     return (
+//         <div>
+//             <Route exact path="/" component={Home} />
+//             <Route path="/users" component={UsersList} />
+//             {/* <Route path="/hi" component={() => "Hi"} /> */}
+//         </div>
+//     );
+// };
 
 /***/ }),
 /* 37 */
