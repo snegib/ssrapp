@@ -33,6 +33,7 @@ function mapStateToProps(state) {
     return { users: state.users }; // before (:) users is prop here
 }
 
-//named export
-export { loadData };
-export default connect(mapStateToProps, { fetchUsers })(UsersList);
+export default {
+    loadData,
+    component: connect(mapStateToProps, { fetchUsers })(UsersList),
+};

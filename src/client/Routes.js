@@ -2,20 +2,19 @@
 
 import React from "react";
 import { Route } from "react-router-dom";
-import Home from "./components/Home";
-import UsersList, { loadData } from "./components/UsersList";
+import HomePage from "./pages/HomePage";
+import UsersListPage from "./components/UsersListPage";
 
 // this structure needed when we doing SSR, npm module required 'react-router-config'
 export default [
     {
+        ...HomePage,
         path: "/",
-        component: Home,
         exact: true,
     },
     {
-        loadData,
+        ...UsersListPage,
         path: "/users",
-        component: UsersList,
     },
 ];
 
