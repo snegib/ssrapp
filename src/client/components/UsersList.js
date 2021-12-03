@@ -24,8 +24,14 @@ class UsersList extends Component {
     }
 }
 
+function loadData() {
+    console.log("trying to load data");
+}
+
 function mapStateToProps(state) {
     return { users: state.users }; // before (:) users is prop here
 }
 
+//named export
+export { loadData };
 export default connect(mapStateToProps, { fetchUsers })(UsersList);

@@ -3,7 +3,7 @@
 import React from "react";
 import { Route } from "react-router-dom";
 import Home from "./components/Home";
-import UsersList from "./components/UsersList";
+import UsersList, { loadData } from "./components/UsersList";
 
 // this structure needed when we doing SSR, npm module required 'react-router-config'
 export default [
@@ -13,6 +13,7 @@ export default [
         exact: true,
     },
     {
+        loadData,
         path: "/users",
         component: UsersList,
     },

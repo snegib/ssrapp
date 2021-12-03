@@ -96,14 +96,16 @@ var _createStore = __webpack_require__(9);
 
 var _createStore2 = _interopRequireDefault(_createStore);
 
+var _UsersList = __webpack_require__(17);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// typical common js syntax/module
+// this is added to ASYNC AWAIT work properly inside action => index.js
+var app = (0, _express2.default)(); // typical common js syntax/module
 // const express = require("express");
 // const React = require("react");
 // const renderToString = require("react-dom/server").renderToString;
 // const Home = require("./client/components/Home").default;
-var app = (0, _express2.default)(); // this is added to ASYNC AWAIT work properly inside action => index.js
 
 app.use(_express2.default.static("public"));
 
@@ -113,7 +115,14 @@ app.get("*", function (req, res) {
 
     // some logic to initialize
     // and load data into the store
-    (0, _reactRouterConfig.matchRoutes)(_Routes2.default, req.path); // (Routes) which component and (req.path) url of data which data need to be show/view
+    // console.log(matchRoutes(Routes, req.path))
+    // (Routes) which component and (req.path) url of data which data need to be show/view
+    // map(({ route }) destructuring
+    (0, _reactRouterConfig.matchRoutes)(_Routes2.default, req.path).map(function (_ref) {
+        var route = _ref.route;
+
+        return route.loadData ? route.loadData() : null;
+    });
 
     res.send((0, _renderer2.default)(req, store)); //  request (req), is contains the url which user trying to access or which component should be rendered
 });
@@ -261,6 +270,7 @@ exports.default = [{
     component: _Home2.default,
     exact: true
 }, {
+    loadData: _UsersList.loadData,
     path: "/users",
     component: _UsersList2.default
 }];
@@ -450,6 +460,7 @@ module.exports = require("axios");
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.loadData = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -517,10 +528,16 @@ var UsersList = function (_Component) {
     return UsersList;
 }(_react.Component);
 
+function loadData() {
+    console.log("trying to load data");
+}
+
 function mapStateToProps(state) {
     return { users: state.users }; // before (:) users is prop here
 }
 
+//named export
+exports.loadData = loadData;
 exports.default = (0, _reactRedux.connect)(mapStateToProps, { fetchUsers: _actions.fetchUsers })(UsersList);
 
 /***/ }),
