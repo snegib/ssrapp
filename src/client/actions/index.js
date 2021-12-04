@@ -12,3 +12,14 @@ export const fetchUsers = () => async (dispatch, getState, api) => {
         payload: res, // sending data whatever getting from api
     });
 };
+
+export const FETCH_CURRENT_USER = "fetch-current-user";
+export const fetchCurrentUser = () => async (dispatch, getState, api) => {
+    // api here is 'axiosInstance', see client.js
+    const res = await api.get("/current_user");
+
+    dispatch({
+        type: FETCH_CURRENT_USER,
+        payload: res, // sending data whatever getting from api
+    });
+};
