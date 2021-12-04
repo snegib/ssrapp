@@ -1,4 +1,4 @@
-import axios from "axios"; // for api request
+//import axios from "axios"; // for api request
 
 export const FETCH_USERS = "fetch-users";
 

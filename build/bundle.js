@@ -120,7 +120,7 @@ app.use("/api", (0, _expressHttpProxy2.default)("http://react-ssr-api-herokuapp.
 // this option is just for this course
 {
     proxyReqOptDecorator: function proxyReqOptDecorator(opts) {
-        opts.header["x-forwarded-host"] = "localhost:3000";
+        opts.headers["x-forwarded-host"] = "localhost:3000";
         return opts;
     }
 }));
@@ -128,7 +128,7 @@ app.use(_express2.default.static("public"));
 
 // root route of our application
 app.get("*", function (req, res) {
-    var store = (0, _createStore2.default)();
+    var store = (0, _createStore2.default)(req);
 
     // some logic to initialize
     // and load data into the store
@@ -289,16 +289,26 @@ var _reduxThunk = __webpack_require__(11);
 
 var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
+var _axios = __webpack_require__(16);
+
+var _axios2 = _interopRequireDefault(_axios);
+
 var _reducers = __webpack_require__(13);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function () {
-    var store = (0, _redux.createStore)(_reducers2.default, {}, (0, _redux.applyMiddleware)(_reduxThunk2.default));
+// for server side store
+
+exports.default = function (req) {
+    var axiosInstance = _axios2.default.create({
+        baseURL: "http://react-ssr-api.herokuapp.com",
+        header: { cookies: req.get("cookie") || "" }
+    });
+    var store = (0, _redux.createStore)(_reducers2.default, {}, (0, _redux.applyMiddleware)(_reduxThunk2.default.withExtraArgument(axiosInstance)));
     return store;
-}; // for server side store
+};
 
 /***/ }),
 /* 10 */
@@ -377,17 +387,10 @@ exports.default = function () {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.fetchUsers = exports.FETCH_USERS = undefined;
-
-var _axios = __webpack_require__(16);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-// for api request
+//import axios from "axios"; // for api request
 
 var FETCH_USERS = exports.FETCH_USERS = "fetch-users";
 

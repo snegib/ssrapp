@@ -24,7 +24,7 @@ app.use(
         // this option is just for this course
         {
             proxyReqOptDecorator(opts) {
-                opts.header["x-forwarded-host"] = "localhost:3000";
+                opts.headers["x-forwarded-host"] = "localhost:3000";
                 return opts;
             },
         }
@@ -34,7 +34,7 @@ app.use(express.static("public"));
 
 // root route of our application
 app.get("*", (req, res) => {
-    const store = createStore();
+    const store = createStore(req);
 
     // some logic to initialize
     // and load data into the store
