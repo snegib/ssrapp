@@ -390,16 +390,18 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 // for api request
 
 var FETCH_USERS = exports.FETCH_USERS = "fetch-users";
+
+// this function start from 'async' will automatically invoke by redux thunk
 var fetchUsers = exports.fetchUsers = function fetchUsers() {
     return function () {
-        var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(dispatch) {
+        var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(dispatch, getState, api) {
             var res;
             return regeneratorRuntime.wrap(function _callee$(_context) {
                 while (1) {
                     switch (_context.prev = _context.next) {
                         case 0:
                             _context.next = 2;
-                            return _axios2.default.get("https://react-ssr-api.herokuapp.com/users");
+                            return api.get("/users");
 
                         case 2:
                             res = _context.sent;
@@ -418,7 +420,7 @@ var fetchUsers = exports.fetchUsers = function fetchUsers() {
             }, _callee, undefined);
         }));
 
-        return function (_x) {
+        return function (_x, _x2, _x3) {
             return _ref.apply(this, arguments);
         };
     }();

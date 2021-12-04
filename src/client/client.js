@@ -10,13 +10,17 @@ import thunk from "redux-thunk";
 import { Provider } from "react-redux";
 // for client side store end
 import { renderRoutes } from "react-router-config";
+import axios from "axios";
 import Routes from "./Routes";
 import reducers from "./reducers";
 
+const axiosInstance = axios.create({
+    baseURL: "/api",
+});
 const store = createStore(
     reducers,
     window.INITIAL_STATE,
-    applyMiddleware(thunk)
+    applyMiddleware(thunk.withExtraArgument) // withExtraArgument will pass axios instances in it
 );
 
 ReactDOM.hydrate(
