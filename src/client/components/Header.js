@@ -1,10 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
-export default () => {
+import { connect } from "react-redux";
+const Header = ({ auth }) => {
+    console.log("my auth status is ", auth);
     return (
         <div>
             <Link to="/">React SSR</Link>
         </div>
     );
 };
+
+function mapStateToProps({ auth }) {
+    return { auth };
+}
+export default connect(mapStateToProps)(Header);
