@@ -28,3 +28,5 @@ In addition, by making those special data loading functions and tying them to ea
 
 the entire purpose of all this stuff that we're doing right now is making sure that we can
 figure out what set of components are about to be rendered given some particular URL.
+
+#### Note: we are doing cookies base auth process in this app

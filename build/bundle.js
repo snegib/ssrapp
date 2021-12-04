@@ -84,6 +84,10 @@ var _express2 = _interopRequireDefault(_express);
 
 var _reactRouterConfig = __webpack_require__(19);
 
+var _expressHttpProxy = __webpack_require__(23);
+
+var _expressHttpProxy2 = _interopRequireDefault(_expressHttpProxy);
+
 var _Routes = __webpack_require__(7);
 
 var _Routes2 = _interopRequireDefault(_Routes);
@@ -100,13 +104,26 @@ var _UsersListPage = __webpack_require__(21);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// this is added to ASYNC AWAIT work properly inside action => index.js
-var app = (0, _express2.default)(); // typical common js syntax/module
+// server file
+// typical common js syntax/module
 // const express = require("express");
 // const React = require("react");
 // const renderToString = require("react-dom/server").renderToString;
 // const Home = require("./client/components/Home").default;
+var app = (0, _express2.default)();
 
+//proxy setup for cookies auth instead of jwt token
+/*the browser ever makes a request to our render server with a route that begins with API, we will attempt to proxy it off or send it off to the proxy server. So this right here is going to match this route and it will pass in a second argument of exactly what
+we want to have happen to this request. So we'll pass in proxy. Proxy is a function. We're going to pass a string that tells it where to send this request to. So we're going to say send this request off to http://react-ssr-api-herokuapp.com.*/
+// this is added to ASYNC AWAIT work properly inside action => index.js
+app.use("/api", (0, _expressHttpProxy2.default)("http://react-ssr-api-herokuapp.com",
+// this option is just for this course
+{
+    proxyReqOptDecorator: function proxyReqOptDecorator(opts) {
+        opts.header["x-forwarded-host"] = "localhost:3000";
+        return opts;
+    }
+}));
 app.use(_express2.default.static("public"));
 
 // root route of our application
@@ -562,6 +579,12 @@ exports.default = {
 /***/ (function(module, exports) {
 
 module.exports = require("serialize-javascript");
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports) {
+
+module.exports = require("express-http-proxy");
 
 /***/ })
 /******/ ]);
