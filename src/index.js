@@ -20,7 +20,7 @@ we want to have happen to this request. So we'll pass in proxy. Proxy is a funct
 app.use(
     "/api",
     proxy(
-        "http://react-ssr-api-herokuapp.com",
+        "http://react-ssr-api.herokuapp.com",
         // this option is just for this course
         {
             proxyReqOptDecorator(opts) {

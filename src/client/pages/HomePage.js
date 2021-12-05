@@ -4,15 +4,9 @@ import React from "react";
 
 const Home = () => {
     return (
-        <div>
-            <div>I'm the very very best home component</div>
-            <button
-                onClick={() => {
-                    console.log("hi there from Home!");
-                }}
-            >
-                Press Me
-            </button>
+        <div className="center-align" style={{ marginTop: "200px" }}>
+            <h3>Welcome</h3>
+            <p>Checkout these awesome features.</p>{" "}
         </div>
     );
 };

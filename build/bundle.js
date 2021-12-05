@@ -116,7 +116,7 @@ var app = (0, _express2.default)();
 /*the browser ever makes a request to our render server with a route that begins with API, we will attempt to proxy it off or send it off to the proxy server. So this right here is going to match this route and it will pass in a second argument of exactly what
 we want to have happen to this request. So we'll pass in proxy. Proxy is a function. We're going to pass a string that tells it where to send this request to. So we're going to say send this request off to http://react-ssr-api-herokuapp.com.*/
 // this is added to ASYNC AWAIT work properly inside action => index.js
-app.use("/api", (0, _expressHttpProxy2.default)("http://react-ssr-api-herokuapp.com",
+app.use("/api", (0, _expressHttpProxy2.default)("http://react-ssr-api.herokuapp.com",
 // this option is just for this course
 {
     proxyReqOptDecorator: function proxyReqOptDecorator(opts) {
@@ -211,7 +211,7 @@ exports.default = function (req, store) {
             )
         )
     )); // this will convert react to html code
-    return "\n    <html>\n        <head></head>\n        <body>\n            <div id=\"root\">" + content + "</div>\n            <script>\n            window.INITIAL_STATE = " + (0, _serializeJavascript2.default)(store.getState()) + "</script>\n            <script src=\"bundle.js\"></script>\n        </body>\n    </html>";
+    return "\n    <html>\n        <head>\n    <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css\">\n</head>\n        <body>\n            <div id=\"root\">" + content + "</div>\n            <script>\n            window.INITIAL_STATE = " + (0, _serializeJavascript2.default)(store.getState()) + "</script>\n            <script src=\"bundle.js\"></script>\n        </body>\n    </html>";
 }; //use for server (index.js)
 // this file is going to how is a function that will simply render our react app and return
 // it as a string, essentially what we are currently doing on these couple lines inside of our // root handler.
@@ -311,6 +311,9 @@ exports.default = function (req) {
     var axiosInstance = _axios2.default.create({
         baseURL: "http://react-ssr-api.herokuapp.com",
         header: { cookies: req.get("cookie") || "" }
+        // client_id:
+        //     "517024197546-9lkgr6sm15mt17bs09kkvhdtuu45rer6.apps.googleusercontent.com",
+        // client_secret: "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",
     });
     var store = (0, _redux.createStore)(_reducers2.default, {}, (0, _redux.applyMiddleware)(_reduxThunk2.default.withExtraArgument(axiosInstance)));
     return store;
@@ -369,23 +372,7 @@ exports.default = (0, _redux.combineReducers)({
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
 var _actions = __webpack_require__(15);
-
-exports.default = function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    var action = arguments[1];
-
-    switch (action.type) {
-        case _actions.FETCH_USERS:
-            return action.payload.data;
-        default:
-            return state;
-    }
-};
 
 /***/ }),
 /* 15 */
@@ -513,21 +500,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Home = function Home() {
     return _react2.default.createElement(
         "div",
-        null,
+        { className: "center-align", style: { marginTop: "200px" } },
         _react2.default.createElement(
-            "div",
+            "h3",
             null,
-            "I'm the very very best home component"
+            "Welcome"
         ),
         _react2.default.createElement(
-            "button",
-            {
-                onClick: function onClick() {
-                    console.log("hi there from Home!");
-                }
-            },
-            "Press Me"
-        )
+            "p",
+            null,
+            "Checkout these awesome features."
+        ),
+        " "
     );
 }; // es 2015 module syntax
 
@@ -705,13 +689,54 @@ var Header = function Header(_ref) {
     var auth = _ref.auth;
 
     console.log("my auth status is ", auth);
+
+    var authButton = auth ? _react2.default.createElement(
+        "a",
+        { href: "/api/logout" },
+        "Logout"
+    ) : _react2.default.createElement(
+        "a",
+        { href: "/api/auth/google" },
+        "Login"
+    );
     return _react2.default.createElement(
-        "div",
+        "nav",
         null,
         _react2.default.createElement(
-            _reactRouterDom.Link,
-            { to: "/" },
-            "React SSR"
+            "div",
+            { className: "nav-wrapper" },
+            _react2.default.createElement(
+                _reactRouterDom.Link,
+                { to: "/", className: "brand-logo" },
+                "React SSR"
+            ),
+            _react2.default.createElement(
+                "ul",
+                { className: "right" },
+                _react2.default.createElement(
+                    "li",
+                    null,
+                    _react2.default.createElement(
+                        _reactRouterDom.Link,
+                        { to: "/users" },
+                        "Users"
+                    )
+                ),
+                _react2.default.createElement(
+                    "li",
+                    null,
+                    _react2.default.createElement(
+                        _reactRouterDom.Link,
+                        { to: "/admins" },
+                        "Admins"
+                    )
+                ),
+                _react2.default.createElement(
+                    "li",
+                    null,
+                    authButton
+                )
+            )
         )
     );
 };
